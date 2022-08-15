@@ -1,0 +1,29 @@
+.popup__close{
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    right: -52px;
+    top: -52px;
+    border: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: .5s;
+    rotate: 45deg;
+    background-image: url(../../../images/cross-button.svg);
+    background-size: 100%;
+}
+
+.popup__close:hover{
+    opacity: .5;
+}
+
+@media screen and (max-width: 600px) {
+    .popup__close{
+        width: 28px;
+        height: 28px;
+        right: 0;
+        top: -44px;
+    }
+}
+
+
