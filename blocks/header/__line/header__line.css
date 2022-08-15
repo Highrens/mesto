@@ -1,4 +1,6 @@
 .header__line{
     color: #545454;
+    border: none;
+    border-bottom: #545454 solid 1px;
     margin: 0;
 }

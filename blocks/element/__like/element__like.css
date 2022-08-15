@@ -5,9 +5,7 @@
     margin-right: 20px;
     padding: 0;
     border: 0;
-
-    background-color: rgba(0, 0, 0, 0);
-    background-image: url(../../../images/heart.svg);
+ 
     background-size: cover;
     transition: .5s;
 }
