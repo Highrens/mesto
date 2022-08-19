@@ -3,18 +3,27 @@
     height: 24px;
 
     margin-left: 18px;
+    padding: 11px;
 
     border: 1px #fff solid;
     box-sizing: border-box;
 
     background-color: rgba(0, 0, 0, 0);
     background-image: url(../../../images/profile__button.svg);
-    background-size: contain;
+    background-size: cover;
     transition: .5s;
+    cursor: pointer;
 }
 
 .profile__edit-button:hover{
-    opacity: .5;
+    opacity: .6;
 }
 
-
+@media screen and (max-width: 600px) {
+    .profile__edit-button{
+        margin-left: 10px;
+        width: 18px;
+        height: 18px;
+    
+    }
+}

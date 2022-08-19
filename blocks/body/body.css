@@ -1,9 +1,8 @@
-.main{
+.body{
     display: flex;
     flex-direction: column;
-    max-width: 880px;
-    width: 100%;
     align-items: center;
     color: #fff;
     background-color: #000;
+
 }
