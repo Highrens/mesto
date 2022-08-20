@@ -5,9 +5,10 @@
     margin-bottom: 66px;
 }
 
-@media screen and (max-width: 600px) {
-    .elements{
+@media screen and (max-width: 920px) {
+    .photos{
         margin-top: 36px;
         margin-bottom: 48px;
+        width: 95%;
     }
 }

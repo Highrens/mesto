@@ -13,8 +13,8 @@ let profileDescription = document.querySelector(".profile__description");
 let newProfileName = document.querySelector(".popup__text_type_name");
 let newProfileDescription = document.querySelector(".popup__text_type_about");
 
-function profilePopupChange(){
-    profileEditPopup.classList.toggle("popup_opened");
+function profilePopupClose(){
+    profileEditPopup.classList.remove("popup_opened");
 }
 
 function profileSubmit(evt){
@@ -23,7 +23,7 @@ function profileSubmit(evt){
     profileName.textContent          = newProfileName.value;
     profileDescription.textContent   = newProfileDescription.value;
 
-    profilePopupChange();
+    profilePopupClose();
 
 }
 
@@ -32,9 +32,9 @@ function popupOpen(){
     newProfileName.value            = profileName.textContent;
     newProfileDescription.value     = profileDescription.textContent;
 
-    profileEditPopup.classList.toggle("popup_opened");
+    profileEditPopup.classList.add("popup_opened");
 }
 
 profileEditButton.addEventListener("click", popupOpen); 
-popupClose.addEventListener("click", profilePopupChange); 
+popupClose.addEventListener("click", profilePopupClose); 
 editSubmit.addEventListener("submit", profileSubmit);
