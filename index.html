@@ -1,102 +1,92 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="pages/index.css">
     <title>Mesto</title>
-</head>
-<body class="body">
+  </head>
+  <body class="body">
     <header class="header">
-        <img class="header__logo" src="images/logo.svg" alt="Логотип Сайта Mesto">
+      <img class="header__logo" src="images/logo.svg" alt="Логотип Сайта Mesto">
     </header>
-
     <main class="main">
-            
-        <section class="profile"  aria-label="profile">
+      <section class="profile" aria-label="profile">
         <div class="profile__column">
           <img src="images/profile__image.jpg" alt="Изоображение профиля" class="profile__image">
-          <div class="profile__info"> 
-                <div class="profile__item">
-                  <h1 class="profile__name">Жак-Ив Кусто</h1>
-                  <button type="button" class="profile__edit-button"></button>
-                </div>             
-                <p class="profile__description">Исследователь океана</p>
-             
+          <div class="profile__info">
+            <div class="profile__item">
+              <h1 class="profile__name">Жак-Ив Кусто</h1>
+              <button type="button" class="profile__edit-button"></button>
+            </div>
+            <p class="profile__description">Исследователь океана</p>
           </div>
         </div>
-        <button  class="profile__add-button" type="button"></button>
-        </section>
-        <section class="photos" aria-label="photos">
-            <ul class="elements">
-                <li class="element">
-              <img src="images/elements/karachevsk.jpg" alt="Карачаевск" class="element__image">
-             <div class="element__description">
-                  <h2    class="element__name">Карачаевск</h2>
-                  <button class="element__like" type="button"></button>
-             </div>
-                 </li>
-                <li class="element">
-              <img src="images/elements/dombay.png" alt="Домбай" class="element__image">
-             <div class="element__description">
-                  <h2    class="element__name">Домбай</h2>
-                  <button class="element__like" type="button"></button>
-             </div>
-                    </li>
-                <li class="element">
-                    <img src="images/elements/elbrus.png" alt="Эльбрус" class="element__image">
-                    <div class="element__description">
-                        <h2    class="element__name">Эльбрус</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                    </li>
-                <li class="element">
-                    <img src="images/elements/samaraRKS.png" alt="Самарский РКС" class="element__image">
-                    <div class="element__description">
-                        <h2    class="element__name">Самарский РКС</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                    </li>
-                <li class="element">
-                    <img src="images/elements/vladivostok.jpg" alt="Владивосток" class="element__image">
-                    <div class="element__description">
-                        <h2    class="element__name">Владивосток</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                    </li>
-                <li class="element">
-                    <img src="images/elements/rastov.jpg" alt="Растов-На-Дону" class="element__image">
-                    <div class="element__description">
-                        <h2    class="element__name">Растов-На-Дону</h2>
-                        <button class="element__like" type="button"></button>
-                    </div>
-                    </li>
-            </ul>
-        </section>
-
+        <button class="profile__add-button" type="button"></button>
+      </section>
+      <section class="photos" aria-label="photos">
+        <ul class="elements">
+          <li class="element">
+            <img src="images/elements/karachevsk.jpg" alt="Карачаевск" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Карачаевск</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img src="images/elements/dombay.png" alt="Домбай" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Домбай</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img src="images/elements/elbrus.png" alt="Эльбрус" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Эльбрус</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img src="images/elements/samaraRKS.png" alt="Самарский РКС" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Самарский РКС</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img src="images/elements/vladivostok.jpg" alt="Владивосток" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Владивосток</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+          <li class="element">
+            <img src="images/elements/rastov.jpg" alt="Растов-На-Дону" class="element__image">
+            <div class="element__description">
+              <h2 class="element__name">Растов-На-Дону</h2>
+              <button class="element__like" type="button"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
     </main>
     <footer class="footer">
-        <p class="footer__copyright">
-            &#169; 2020 Mesto Russia
-        </p>
+      <p class="footer__copyright">
+        &#169; 2020 Mesto Russia
+      </p>
     </footer>
-
     <div class="popup ">
-        <div class="popup__container">
-            <button class="popup__close" type="button"></button>
-            <h2 class="popup__heading">Редактировать профиль</h2>
-                <form class="popup__form" name="profile-edit-form">
-                    <input id="name-input" placeholder="Имя" name="name" 
-                     class="popup__text popup__text_type_name">
-                     <input id="about-input" placeholder="О себе" name="about" 
-                     class="popup__text popup__text_type_about">
-
-                      <button type="submit" class="popup__submit-button">Сохранить</button>
-                </form>
-        </div>
+      <div class="popup__container">
+        <button class="popup__close" type="button"></button>
+        <h2 class="popup__heading">Редактировать профиль</h2>
+        <form class="popup__form" name="profile-edit-form">
+          <input id="name-input" placeholder="Имя" name="name" class="popup__text popup__text_type_name">
+          <input id="about-input" placeholder="О себе" name="about" class="popup__text popup__text_type_about">
+          <button type="submit" class="popup__submit-button">Сохранить</button>
+        </form>
+      </div>
     </div>
-
-
     <script src="scripts/index.js"></script>
-</body>
+  </body>
 </html>
