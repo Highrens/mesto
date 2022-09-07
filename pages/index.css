@@ -31,6 +31,7 @@
 @import url(../blocks/element/__like/element__like.css);
 @import url(../blocks/element/__like/_active/element__like_active.css);
 @import url(../blocks/element/__image/element__image.css);
+@import url(../blocks/element/__delete/element__delete.css);
 /* footer */
 
 @import url(../blocks/footer/footer.css);
@@ -45,3 +46,4 @@
 @import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__text/popup__text.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
+@import url(../blocks/popup/__Image-container/popup__Image-container.css);

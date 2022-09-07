@@ -5,7 +5,7 @@
     /* box-sizing: border-box;
     border: #fff 1px solid; */
     border-radius: 10px;
-
+    position: relative;
     overflow: hidden;
     background-color: #fff;
 
