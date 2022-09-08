@@ -1,4 +1,4 @@
-// Кнопки
+// Кнопки и попапы
 
 let popupClose = document.querySelectorAll(".popup__close"); //Кнопка закрытия Всех попапов, раз они не открываются одновременно
 
@@ -16,6 +16,8 @@ let AddElementPopup = document.querySelector(".popup-add-element")
 let profileName = document.querySelector(".profile__name");
 let profileDescription = document.querySelector(".profile__description");
 
+// Попап фотокарточки
+let ImagePopup = document.querySelector(".popup-image");
 // Поля ввода 
     //
     let newProfileName = document.querySelector(".popup__text_type_name");
@@ -62,11 +64,20 @@ function AddElement(evt){
     let NewElement = ElementTemplate.querySelector('.element').cloneNode(true);
 
     NewElement.querySelector(".element__name").textContent = NewElementName.value;
-    NewElement.querySelector(".element__image").src = NewElementSrc.value;
+    NewElement.querySelector(".element__image").style = `background-image:url('${NewElementSrc.value}');`; 
+    NewElement.querySelector(".element__image").addEventListener('click', function(evt){
+
+      ImagePopup.classList.add('popup_opened');
+      ImagePopup.querySelector(".popup__image").src = NewElementSrc.value;
+      ImagePopup.querySelector('.popup__image-name').textContent = NewElementName.value;
+    })
+
+
     NewElement.querySelector('.element__like').addEventListener('click', function(evt){
         evt.target.classList.toggle('element__like_active');
       })
-      NewElement.querySelector('.element__delete').addEventListener('click', function(evt){
+
+    NewElement.querySelector('.element__delete').addEventListener('click', function(evt){
         evt.target.parentElement.remove();
       })
 
@@ -127,7 +138,18 @@ function AddStartCards (CardsArray){
         let NewElement = ElementTemplate.querySelector('.element').cloneNode(true);
 
     NewElement.querySelector(".element__name").textContent = element.name;
-    NewElement.querySelector(".element__image").src = element.link;
+    NewElement.querySelector(".element__image").style = `background-image:url('${element.link}');`;
+
+
+    NewElement.querySelector(".element__image").addEventListener('click', function(evt){
+
+      ImagePopup.classList.add('popup_opened');
+      ImagePopup.querySelector(".popup__image").src = element.link;
+      ImagePopup.querySelector('.popup__image-name').textContent = element.name;
+    })
+
+
+
     NewElement.querySelector('.element__like').addEventListener('click', function(evt){
         evt.target.classList.toggle('element__like_active');
       })
