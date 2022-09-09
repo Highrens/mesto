@@ -23,8 +23,8 @@ let ImagePopup = document.querySelector(".popup-image");
     let newProfileName = document.querySelector(".popup__text_type_name");
     let newProfileDescription = document.querySelector(".popup__text_type_about");
     //
-    let NewElementName = document.querySelector(".popup__text_type_element_name");
-    let NewElementSrc = document.querySelector(".popup__text_type_element_src");
+    let NewElementName = document.querySelector(".popup__text_type_element-name");
+    let NewElementSrc = document.querySelector(".popup__text_type_element-src");
 
 //Функция ищет и закрывает открытый попап
 function PopupClose(){
@@ -70,16 +70,16 @@ function AddElement(evt){
       ImagePopup.classList.add('popup_opened');
       ImagePopup.querySelector(".popup__image").src = NewElementSrc.value;
       ImagePopup.querySelector('.popup__image-name').textContent = NewElementName.value;
-    })
+    });
 
 
     NewElement.querySelector('.element__like').addEventListener('click', function(evt){
         evt.target.classList.toggle('element__like_active');
-      })
+      });
 
     NewElement.querySelector('.element__delete').addEventListener('click', function(evt){
         evt.target.parentElement.remove();
-      })
+      });
 
     Elements.prepend(NewElement);
 
