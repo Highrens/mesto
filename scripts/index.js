@@ -1,121 +1,116 @@
-// Кнопки и попапы
-
-const popupClose = document.querySelectorAll(".popup__close"); //Кнопка закрытия Всех попапов, раз они не открываются одновременно
 
     // Настройка профиля
-const profileEditButton = document.querySelector(".profile__edit-button"); //Кнопка Открытия
-const editSubmit = document.querySelector("[name=profile-edit-form]"); //Форма
-const profileEditPopup = document.querySelector(".popup-profile-edit"); // Попап
-
-    // Добавление фотокарточки
-const AddElementButton = document.querySelector(".profile__add-button")
-const AddElemetSubmit = document.querySelector("[name=add-element-form]")
-const addElementPopup = document.querySelector(".popup-add-element")
-
+const popupProfileButton = document.querySelector(".profile__edit-button");     //Кнопка Открытия
+const popupProfileForm = document.querySelector("[name=profile-edit-form]");  //Форма
+const popupProfile = document.querySelector(".popup-profile-edit");        // Попап
+const popupProfileClose = document.querySelector(".popup-profile-close");      //Закрытие
 // Имя и описание профиля
 const profileName = document.querySelector(".profile__name");
 const profileDescription = document.querySelector(".profile__description");
+const newProfileName = document.querySelector(".popup__text_type_name");
+const newProfileDescription = document.querySelector(".popup__text_type_about");
 
-// Попап фотокарточки
-const imagePopup = document.querySelector(".popup-image");
-// Поля ввода 
-    //
-    const newProfileName = document.querySelector(".popup__text_type_name");
-    const newProfileDescription = document.querySelector(".popup__text_type_about");
-    //
-    let newElementName = document.querySelector(".popup__text_type_element-name");
-    let newElementSrc = document.querySelector(".popup__text_type_element-src");
+    // Добавление фотокарточки
+const popupAddElementButton = document.querySelector(".profile__add-button");        // Кнопка открытия
+const popupAddElementForm = document.querySelector("[name=add-element-form]");      //форма
+const popupAddElement = document.querySelector(".popup-add-element");           //Попап
+const popupAddElementClose = document.querySelector(".popup-add-element-close"); //Закрытие
+const newElementName = document.querySelector(".popup__text_type_element-name"); //Имя для новой карточки
+const newElementSrc = document.querySelector(".popup__text_type_element-src");  // Ссылка для новой карточки
+// Место и шаблон для новых карточек
+const ElementTemplate = document.querySelector('#element').content;
+const elements = document.querySelector(".elements");
+    // Попап фотокарточки
+const popupImage = document.querySelector(".popup-image"); //попап
+const popupImageSrc =popupImage.querySelector(".popup__image"); //Изоображение попапа
+const popupImageClose = document.querySelector(".popup-image-close"); //закрытие 
 
-//Функция ищет и закрывает открытый попап
-function PopupClose(){
-    const openedPopup = document.querySelector(".popup_opened");
-    openedPopup.classList.remove("popup_opened");
+// Слушаем кнопки
+//Открытие попапов
+popupProfileButton.addEventListener('click', openEditProfilePopup);
+popupAddElementButton.addEventListener('click', openAddElementPopup);
+//Закрытие попапов
+popupProfileClose.addEventListener('click', () => closePopup(popupProfile));
+popupAddElementClose.addEventListener('click', ()=> closePopup(popupAddElement));
+popupImageClose.addEventListener('click',  () => closePopup(popupImage));
+// Сабмит попапов
+popupProfileForm.addEventListener("submit", profileSubmit);
+popupAddElementForm.addEventListener("submit", submitAddElementPopup);
+
+  //Функции открытия и закрытия попапов
+function openPopup(popup_element){
+  popup_element.classList.add("popup_opened");
 }
 
+function closePopup(popup_element){
+  popup_element.classList.remove("popup_opened");
+}
 
-function profileEditPopupOpen(){
+// Функции профиля
+function openEditProfilePopup(){
     newProfileName.value            = profileName.textContent;
     newProfileDescription.value     = profileDescription.textContent;
-
-    profileEditPopup.classList.add("popup_opened");
-}
-
-function addElementPopupOpen(){
-    addElementPopup.classList.add("popup_opened");
-    newElementName.value = '';
-    newElementSrc.value = '';
+    openPopup(popupProfile);
 }
 
 function profileSubmit(evt){
-    evt.preventDefault();
-    
-    profileName.textContent          = newProfileName.value;
-    profileDescription.textContent   = newProfileDescription.value;
+  evt.preventDefault();
+  
+  profileName.textContent          = newProfileName.value;
+  profileDescription.textContent   = newProfileDescription.value;
 
-    PopupClose();
+  closePopup(popupProfile);
 }
 
+//Функции добавляения карточки
+function openAddElementPopup(){
+    newElementName.value = '';
+    newElementSrc.value = '';
+    openPopup(popupAddElement);
+}
 
-// Слушаем кнопки
-popupClose.forEach(function (Close){
-    Close.addEventListener("click", PopupClose)
-})
-
-
-profileEditButton.addEventListener("click", profileEditPopupOpen); 
-editSubmit.addEventListener("submit", profileSubmit);
-
-AddElementButton.addEventListener("click", addElementPopupOpen);
-AddElemetSubmit.addEventListener("submit", AddElement);
-
-
- // Функция обрабатывает имя и ссылку для новой карточки
-function AddElement(evt){
+// Функция обрабатывает имя и ссылку для новой карточки, закрывает попап
+function submitAddElementPopup(evt){
     evt.preventDefault();
-    NewCard(newElementName.value, newElementSrc.value)
-    PopupClose();
+    addElement(createElement(newElement(newElementName.value, newElementSrc.value)));
+    
+    closePopup(popupAddElement);
 }
 
  // Собираем вместе имя и ссылку для карточки
-function NewCard (cardName, cardlink){
-  let newCardArray = {
-    name: cardName,
-    link: cardlink
+function newElement (elementName, elementlink){
+  const newElementArray = {
+    name: elementName,
+    link: elementlink
   }
-  AddNewCard(newCardArray);
+  return newElementArray;
 }
 
-  
-
- // Создаем и добавляем новую карточку в DOM
-function AddNewCard(element) {
-  const ElementTemplate = document.querySelector('#element').content;
-
-  const elements = document.querySelector(".elements");
-  
+// Фунция создает и возвращает новую карточку
+function createElement(element) {
 const newElement = ElementTemplate.querySelector('.element').cloneNode(true);
-  
+const newElementImage = newElement.querySelector(".element__image");
   newElement.querySelector(".element__name").textContent = element.name;
-  newElement.querySelector(".element__image").style = `background-image:url('${element.link}');`;
-  newElement.querySelector(".element__image").addEventListener('click', function(evt){
-      imagePopup.classList.add('popup_opened');
-      imagePopup.querySelector(".popup__image").src = element.link;
-      imagePopup.querySelector('.popup__image-name').textContent = element.name;
+  newElementImage.style = `background-image:url('${element.link}');`;
+  newElementImage.addEventListener('click', function(evt){
+      popupImage.classList.add('popup_opened');
+      popupImageSrc.src = element.link;
+      popupImageSrc.alt = element.name;
+      popupImage.querySelector('.popup__image-name').textContent = element.name;
   })
-  
-  
-  
   newElement.querySelector('.element__like').addEventListener('click', function(evt){
     evt.target.classList.toggle('element__like_active');
   })
   newElement.querySelector('.element__delete').addEventListener('click', function(evt){
     evt.target.parentElement.remove();
   })
-  elements.prepend(newElement);
+  return newElement;
 }
 
-
-// Первые 6 карточек 
+//Функция добавляет новую карточку в DOM
+function addElement (element){
+  elements.prepend(element);
+}
 
 const initialCards = [
   {
@@ -145,11 +140,11 @@ const initialCards = [
 ]; 
 
 // Добавим все 6 карточек выполняя функцию добавления карточки с каждым элементом массива
-function AddStartCards(array){
+function addStartCards(array){
   for (let i = 0; i < array.length; i++) {
    const element = array[i];
-   AddNewCard(element);
+   addElement(createElement(element));
   }
 }
 
-AddStartCards(initialCards);
+addStartCards(initialCards);
