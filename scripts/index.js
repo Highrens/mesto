@@ -18,7 +18,7 @@ const popupAddElementClose = document.querySelector(".popup-add-element-close");
 const newElementName = document.querySelector(".popup__text_type_element-name"); //Имя для новой карточки
 const newElementSrc = document.querySelector(".popup__text_type_element-src");  // Ссылка для новой карточки
 // Место и шаблон для новых карточек
-const ElementTemplate = document.querySelector('#element').content;
+const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector(".elements");
     // Попап фотокарточки
 const popupImage = document.querySelector(".popup-image"); //попап
@@ -38,12 +38,12 @@ popupProfileForm.addEventListener("submit", profileSubmit);
 popupAddElementForm.addEventListener("submit", submitAddElementPopup);
 
   //Функции открытия и закрытия попапов
-function openPopup(popup_element){
-  popup_element.classList.add("popup_opened");
+function openPopup(popup){
+  popup.classList.add("popup_opened");
 }
 
-function closePopup(popup_element){
-  popup_element.classList.remove("popup_opened");
+function closePopup(popup){
+  popup.classList.remove("popup_opened");
 }
 
 // Функции профиля
@@ -72,31 +72,23 @@ function openAddElementPopup(){
 // Функция обрабатывает имя и ссылку для новой карточки, закрывает попап
 function submitAddElementPopup(evt){
     evt.preventDefault();
-    addElement(createElement(newElement(newElementName.value, newElementSrc.value)));
+    addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
     
     closePopup(popupAddElement);
 }
 
- // Собираем вместе имя и ссылку для карточки
-function newElement (elementName, elementlink){
-  const newElementArray = {
-    name: elementName,
-    link: elementlink
-  }
-  return newElementArray;
-}
 
 // Фунция создает и возвращает новую карточку
 function createElement(element) {
-const newElement = ElementTemplate.querySelector('.element').cloneNode(true);
-const newElementImage = newElement.querySelector(".element__image");
+  const newElement = elementTemplate.querySelector('.element').cloneNode(true);
+  const newElementImage = newElement.querySelector(".element__image");
   newElement.querySelector(".element__name").textContent = element.name;
   newElementImage.style = `background-image:url('${element.link}');`;
   newElementImage.addEventListener('click', function(evt){
-      popupImage.classList.add('popup_opened');
-      popupImageSrc.src = element.link;
-      popupImageSrc.alt = element.name;
-      popupImage.querySelector('.popup__image-name').textContent = element.name;
+    openPopup(popupImage);
+    popupImageSrc.src = element.link;
+    popupImageSrc.alt = element.name;
+    popupImage.querySelector('.popup__image-name').textContent = element.name;
   })
   newElement.querySelector('.element__like').addEventListener('click', function(evt){
     evt.target.classList.toggle('element__like_active');
