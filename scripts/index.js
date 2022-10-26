@@ -39,11 +39,23 @@ popupAddElementForm.addEventListener("submit", submitAddElementPopup);
 
   //Функции открытия и закрытия попапов
 function openPopup(popup){
+
   popup.classList.add("popup_opened");
 }
 
 function closePopup(popup){
   popup.classList.remove("popup_opened");
+  //Сбрасываем возможные ошибки валидации
+  popup.querySelectorAll('.popup__text_type_error').forEach((inputErrorClass) => {
+    inputErrorClass.classList.remove('popup__text_type_error');
+  });
+  popup.querySelectorAll('.popup__text-error').forEach((errorElement) => {
+    errorElement.textContent = '';
+  });
+  popup.querySelectorAll('.popup__submit-button').forEach((submitButton)=>{
+    submitButton.classList.remove('popup__submit-button_anacvite'); 
+  });
+
 }
 
 // Функции профиля
@@ -55,28 +67,33 @@ function openEditProfilePopup(){
 
 function profileSubmit(evt){
   evt.preventDefault();
-  
-  profileName.textContent          = newProfileName.value;
-  profileDescription.textContent   = newProfileDescription.value;
+  if (!popupProfileForm.querySelector('.popup__submit-button_anacvite'))
+  {
+    profileName.textContent          = newProfileName.value;
+    profileDescription.textContent   = newProfileDescription.value;
+    closePopup(popupProfile);
+  }
 
-  closePopup(popupProfile);
+
 }
 
 //Функции добавляения карточки
 function openAddElementPopup(){
-    newElementName.value = '';
-    newElementSrc.value = '';
+  popupAddElementForm.reset();
     openPopup(popupAddElement);
 }
 
 // Функция обрабатывает имя и ссылку для новой карточки, закрывает попап
 function submitAddElementPopup(evt){
     evt.preventDefault();
-    addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
+    if(!popupAddElementForm.querySelector('.popup__submit-button_anacvite'))
+    {
+      addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
     
-    closePopup(popupAddElement);
+      closePopup(popupAddElement);
+    }
+   
 }
-
 
 // Фунция создает и возвращает новую карточку
 function createElement(element) {
@@ -140,3 +157,25 @@ function addStartCards(array){
 }
 
 addStartCards(initialCards);
+
+// Слушаем нажатие на оверлей и Esc
+function closePopupListener(){
+  
+  popups = document.querySelectorAll('.popup');
+  
+  popups.forEach(popupElement => {
+     popupElement.addEventListener('click', function (evt) {
+         if (evt.target.classList.contains('popup')){
+           closePopup(popupElement);
+         }
+     }); 
+    popupElement.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === 27)
+        {
+          closePopup(popupElement);
+        }
+    }); 
+  });
+} 
+
+closePopupListener();
