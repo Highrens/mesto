@@ -7,7 +7,7 @@ const settings = {
     errorClass: 'popup__error_visible'
   }; 
 
-const enableValidation = () => {
+const enableValidation = (settings) => {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
     setEventListeners(formElement);
@@ -44,7 +44,7 @@ const hasInvalidInput = (inputList) => {
 }); 
 };
 
-enableValidation();
+enableValidation(settings);
 
 
 const checkInputValidity = (formElement, inputElement) => {
