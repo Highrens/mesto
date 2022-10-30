@@ -69,6 +69,19 @@ const hideInputError = (formElement, inputElement, settings) => {
   errorElement.textContent = '';
 };
 
+  //Сбрасываем возможные ошибки валидации
+  function clearPopupFormErrors (popup) {
 
+    popup.querySelectorAll('.popup__text_type_error').forEach((inputErrorClass) => {
+     inputErrorClass.classList.remove('popup__text_type_error');
+   });
+   popup.querySelectorAll('.popup__text-error').forEach((errorElement) => {
+     errorElement.textContent = '';
+   });
+   popup.querySelectorAll('.popup__submit-button').forEach((submitButton)=>{
+     submitButton.classList.remove('popup__submit-button_anacvite'); 
+   });
+ 
+ }
 
 

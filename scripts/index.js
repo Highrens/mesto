@@ -14,6 +14,7 @@ const popupAddElementButton = document.querySelector(".profile__add-button");   
 const popupAddElementForm = document.querySelector("[name=add-element-form]");      //форма
 const popupAddElement = document.querySelector(".popup-add-element");           //Попап
 const popupAddElementClose = document.querySelector(".popup-add-element-close"); //Закрытие
+const popupAddElementSubmitButton = popupAddElement.querySelector('.popup__submit-button'); //кнопка сабмита попапа
 const newElementName = document.querySelector(".popup__text_type_element-name"); //Имя для новой карточки
 const newElementSrc = document.querySelector(".popup__text_type_element-src");  // Ссылка для новой карточки
 // Место и шаблон для новых карточек
@@ -36,20 +37,22 @@ popupImageClose.addEventListener('click',  () => closePopup(popupImage));
 
 // Слушаем нажатие на оверлей и Esc
 function addCloseListener (){
-  document.addEventListener('click',  closePopupByEscapeOrOverlay);
-  document.addEventListener('keydown',  closePopupByEscapeOrOverlay);
+  document.addEventListener('click',  closePopupByOverlay);
+  document.addEventListener('keydown',  closePopupByEscape);
 }
 
 function removeCloseListener (){
-  document.removeEventListener('click',  closePopupByEscapeOrOverlay);
-  document.removeEventListener('keydown', closePopupByEscapeOrOverlay);
+  document.removeEventListener('click',  closePopupByOverlay);
+  document.removeEventListener('keydown', closePopupByEscape);
 }
 
-function closePopupByEscapeOrOverlay (evt){
+function closePopupByOverlay (evt){
   if (evt.target.classList.contains('popup')){
     closePopup(evt.target);
-    
   }
+}
+
+function closePopupByEscape (evt){
   if (evt.key === "Escape"){
     closePopup(document.querySelector('.popup_opened'));
   }
@@ -67,31 +70,14 @@ function openPopup(popup){
 
 function closePopup(popup){
   popup.classList.remove("popup_opened");
-  if (!popup.querySelector('.form')){
-    clearPopupFormErrors(popup);
-  }
   removeCloseListener();
-}
-
-   //Сбрасываем возможные ошибки валидации
-function clearPopupFormErrors (popup) {
-
-   popup.querySelectorAll('.popup__text_type_error').forEach((inputErrorClass) => {
-    inputErrorClass.classList.remove('popup__text_type_error');
-  });
-  popup.querySelectorAll('.popup__text-error').forEach((errorElement) => {
-    errorElement.textContent = '';
-  });
-  popup.querySelectorAll('.popup__submit-button').forEach((submitButton)=>{
-    submitButton.classList.remove('popup__submit-button_anacvite'); 
-  });
-
 }
 
 // Функции профиля
 function openEditProfilePopup(){
     newProfileName.value            = profileName.textContent;
     newProfileDescription.value     = profileDescription.textContent;
+    clearPopupFormErrors(popupProfile);
     openPopup(popupProfile);
 }
 
@@ -107,8 +93,10 @@ function submitProfile(evt){
 
 //Функции добавляения карточки
 function openAddElementPopup(){
-  popupAddElement.querySelector('.popup__submit-button').classList.add('popup__submit-button_anacvite');
-  popupAddElementForm.reset();
+  if(newElementName.value === '' || newElementSrc.value === ''){
+  popupAddElementSubmitButton.classList.add('popup__submit-button_anacvite');
+  popupAddElementSubmitButton.setAttribute('disabled', '')
+  }
   openPopup(popupAddElement);
 }
 
@@ -119,6 +107,8 @@ function submitAddElementPopup(evt){
     {
       addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
       closePopup(popupAddElement);
+      clearPopupFormErrors(popupAddElement);
+      popupAddElementForm.reset();
     }
    
 }
