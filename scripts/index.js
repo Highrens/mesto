@@ -77,7 +77,8 @@ function closePopup(popup){
 function openEditProfilePopup(){
     newProfileName.value            = profileName.textContent;
     newProfileDescription.value     = profileDescription.textContent;
-    clearPopupFormErrors(popupProfile);
+    clearPopupFormErrors(popupProfile, settings);
+   
     openPopup(popupProfile);
 }
 
@@ -93,10 +94,7 @@ function submitProfile(evt){
 
 //Функции добавляения карточки
 function openAddElementPopup(){
-  if(newElementName.value === '' || newElementSrc.value === ''){
-  popupAddElementSubmitButton.classList.add('popup__submit-button_anacvite');
-  popupAddElementSubmitButton.setAttribute('disabled', '')
-  }
+  toggleButtonState(Array.from(popupAddElement.querySelectorAll(settings.inputSelector)), popupAddElementSubmitButton, settings)
   openPopup(popupAddElement);
 }
 
@@ -107,7 +105,7 @@ function submitAddElementPopup(evt){
     {
       addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
       closePopup(popupAddElement);
-      clearPopupFormErrors(popupAddElement);
+      clearPopupFormErrors(popupAddElement, settings);
       popupAddElementForm.reset();
     }
    

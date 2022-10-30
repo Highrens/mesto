@@ -70,16 +70,15 @@ const hideInputError = (formElement, inputElement, settings) => {
 };
 
   //Сбрасываем возможные ошибки валидации
-  function clearPopupFormErrors (popup) {
-
-    popup.querySelectorAll('.popup__text_type_error').forEach((inputErrorClass) => {
-     inputErrorClass.classList.remove('popup__text_type_error');
+  function clearPopupFormErrors (popup, settings) {
+    popup.querySelectorAll(`.${settings.inputErrorClass}`).forEach((inputError) => {
+     inputError.classList.remove(settings.inputErrorClass);
    });
-   popup.querySelectorAll('.popup__text-error').forEach((errorElement) => {
+   popup.querySelectorAll(`${settings.inputSelector}-error`).forEach((errorElement) => {
      errorElement.textContent = '';
    });
-   popup.querySelectorAll('.popup__submit-button').forEach((submitButton)=>{
-     submitButton.classList.remove('popup__submit-button_anacvite'); 
+   popup.querySelectorAll(settings.submitButtonSelector).forEach((submitButton)=>{
+     submitButton.classList.remove(settings.inactiveButtonClass); 
    });
  
  }
