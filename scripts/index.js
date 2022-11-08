@@ -1,7 +1,7 @@
     // Настройка профиля
-const popupProfileButton = document.querySelector(".profile__edit-button");     //Кнопка Открытия
-const popupProfileForm = document.querySelector("[name=profile-edit-form]");  //Форма
-const popupProfile = document.querySelector(".popup-profile-edit");        // Попап
+const popupProfileButton = document.querySelector(".profile__edit-button");    //Кнопка Открытия
+const popupProfileForm = document.querySelector("[name=profile-edit-form]");   //Форма
+const popupProfile = document.querySelector(".popup-profile-edit");            // Попап
 const popupProfileClose = document.querySelector(".popup-profile-close");      //Закрытие
 // Имя и описание профиля
 const profileName = document.querySelector(".profile__name");
@@ -11,21 +11,35 @@ const newProfileDescription = document.querySelector(".popup__text_type_about");
 
     // Добавление фотокарточки
 const popupAddElementButton = document.querySelector(".profile__add-button");        // Кнопка открытия
-const popupAddElementForm = document.querySelector("[name=add-element-form]");      //форма
-const popupAddElement = document.querySelector(".popup-add-element");           //Попап
-const popupAddElementClose = document.querySelector(".popup-add-element-close"); //Закрытие
-const popupAddElementSubmitButton = popupAddElement.querySelector('.popup__submit-button'); //кнопка сабмита попапа
-const newElementName = document.querySelector(".popup__text_type_element-name"); //Имя для новой карточки
-const newElementSrc = document.querySelector(".popup__text_type_element-src");  // Ссылка для новой карточки
-// Место и шаблон для новых карточек
-const elementTemplate = document.querySelector('#element').content;
+const popupAddElementForm = document.querySelector("[name=add-element-form]");       //форма
+const popupAddElement = document.querySelector(".popup-add-element");                //Попап
+const popupAddElementClose = document.querySelector(".popup-add-element-close");     //Закрытие
+const newElementName = document.querySelector(".popup__text_type_element-name");     //Имя для новой карточки
+const newElementSrc = document.querySelector(".popup__text_type_element-src");       // Ссылка для новой карточки
+
+// Место и селектор заготовки для новых карточек
 const elements = document.querySelector(".elements");
+const elementTemplateSelector = ".card-template";
     // Попап фотокарточки
-const popupImage = document.querySelector(".popup-image"); //попап
-const popupImageSrc =popupImage.querySelector(".popup__image"); //Изоображение попапа
+export const popupImage = document.querySelector(".popup-image");     //попап
 const popupImageClose = document.querySelector(".popup-image-close"); //закрытие 
 
-// Слушаем кнопки
+import {Card} from './Card.js'
+import {FormValidator, clearPopupFormErrors} from './FormValidator.js'
+
+const settings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_anacvite',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__error_visible'
+}; 
+
+Array.from(document.querySelectorAll(settings.formSelector)).forEach(formElement => {
+   const form = new FormValidator(settings, formElement)
+   form.enableValidation();
+});
 
 //Открытие попапов
 popupProfileButton.addEventListener('click', openEditProfilePopup);
@@ -63,7 +77,7 @@ popupProfileForm.addEventListener("submit", submitProfile);
 popupAddElementForm.addEventListener("submit", submitAddElementPopup);
 
   //Функции открытия и закрытия попапов
-function openPopup(popup){
+export function openPopup(popup){
   popup.classList.add("popup_opened");
   addCloseListener();
 }
@@ -78,7 +92,6 @@ function openEditProfilePopup(){
     newProfileName.value            = profileName.textContent;
     newProfileDescription.value     = profileDescription.textContent;
     clearPopupFormErrors(popupProfile, settings);
-   
     openPopup(popupProfile);
 }
 
@@ -94,7 +107,6 @@ function submitProfile(evt){
 
 //Функции добавляения карточки
 function openAddElementPopup(){
-  toggleButtonState(Array.from(popupAddElement.querySelectorAll(settings.inputSelector)), popupAddElementSubmitButton, settings)
   openPopup(popupAddElement);
 }
 
@@ -103,7 +115,7 @@ function submitAddElementPopup(evt){
     evt.preventDefault();
     if(!popupAddElementForm.querySelector('.popup__submit-button_anacvite'))
     {
-      addElement(createElement({name: newElementName.value, link: newElementSrc.value}));
+      addElement({name: newElementName.value, link: newElementSrc.value}, elementTemplateSelector);
       closePopup(popupAddElement);
       clearPopupFormErrors(popupAddElement, settings);
       popupAddElementForm.reset();
@@ -111,30 +123,12 @@ function submitAddElementPopup(evt){
    
 }
 
-// Фунция создает и возвращает новую карточку
-function createElement(element) {
-  const newElement = elementTemplate.querySelector('.element').cloneNode(true);
-  const newElementImage = newElement.querySelector(".element__image");
-  newElement.querySelector(".element__name").textContent = element.name;
-  newElementImage.style = `background-image:url('${element.link}');`;
-  newElementImage.addEventListener('click', function(evt){
-    openPopup(popupImage);
-    popupImageSrc.src = element.link;
-    popupImageSrc.alt = element.name;
-    popupImage.querySelector('.popup__image-name').textContent = element.name;
-  })
-  newElement.querySelector('.element__like').addEventListener('click', function(evt){
-    evt.target.classList.toggle('element__like_active');
-  })
-  newElement.querySelector('.element__delete').addEventListener('click', function(evt){
-    evt.target.parentElement.remove();
-  })
-  return newElement;
-}
-
 //Функция добавляет новую карточку в DOM
-function addElement (element){
-  elements.prepend(element);
+function addElement (element, elementTemplateSelector){
+  const card = new Card(element, elementTemplateSelector);
+  const cardElement = card.generateCard();
+
+  elements.append(cardElement);
 }
 
 const initialCards = [
@@ -166,10 +160,12 @@ const initialCards = [
 
 // Добавим все 6 карточек выполняя функцию добавления карточки с каждым элементом массива
 function addStartCards(array){
-  for (let i = 0; i < array.length; i++) {
-   const element = array[i];
-   addElement(createElement(element));
-  }
+  array.forEach((element) => {
+    const card = new Card(element, elementTemplateSelector);
+    const cardElement = card.generateCard();
+  
+    elements.append(cardElement);
+  });
 }
 
 addStartCards(initialCards);
