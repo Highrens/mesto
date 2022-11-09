@@ -1,7 +1,7 @@
 .popup__text-error{
     max-width: calc(100% - 72px);
     min-height: 30px;
-    margin: 0 36px;
+    margin: 2px 36px 0;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;

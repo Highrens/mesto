@@ -3,6 +3,7 @@ export class FormValidator {
     this.settings = settings;
     this.formElement = formElement;
     this._inputList = Array.from(this.formElement.querySelectorAll(this.settings.inputSelector));
+    this._buttonElement = this.formElement.querySelector(this.settings.submitButtonSelector);
   }
 
 
@@ -23,21 +24,19 @@ export class FormValidator {
   };
 
   _toggleButtonState() {
-    const _buttonElement = this.formElement.querySelector(this.settings.submitButtonSelector);
     if (this._hasInvalidInput()) {
-      _buttonElement.classList.add(this.settings.inactiveButtonClass);
-      _buttonElement.setAttribute("disabled", "");
+      this._buttonElement.classList.add(this.settings.inactiveButtonClass);
+      this._buttonElement.setAttribute("disabled", "");
     } else {
-      _buttonElement.classList.remove(this.settings.inactiveButtonClass);
-      _buttonElement.removeAttribute("disabled");
+      this._buttonElement.classList.remove(this.settings.inactiveButtonClass);
+      this._buttonElement.removeAttribute("disabled");
     } 
   };
 
     _hasInvalidInput () {
         return this._inputList.some((inputElement) => {
-        return !inputElement.validity.valid;
-        
-      }); 
+          return !inputElement.validity.valid;
+        }); 
     };
 
     _checkInputValidity(inputElement) {
@@ -59,21 +58,15 @@ export class FormValidator {
       inputElement.classList.remove(this.settings.inputErrorClass);
       errorElement.textContent = '';
     };
-}
+
   //Сбрасываем возможные ошибки валидации
- export function clearPopupFormErrors (popup, settings) {
-    popup.querySelectorAll(`.${settings.inputErrorClass}`).forEach((inputError) => {
-     inputError.classList.remove(settings.inputErrorClass);
+   clearPopupFormErrors () {
+    this.formElement.querySelectorAll(`.${this.settings.inputErrorClass}`).forEach((inputError) => {
+     inputError.classList.remove(this.settings.inputErrorClass);
    });
-   popup.querySelectorAll(`${settings.inputSelector}-error`).forEach((errorElement) => {
+     this.formElement.querySelectorAll(`${this.settings.inputSelector}-error`).forEach((errorElement) => {
      errorElement.textContent = '';
    });
-   popup.querySelectorAll(settings.submitButtonSelector).forEach((submitButton)=>{
-     submitButton.classList.remove(settings.inactiveButtonClass); 
-   });
- 
+   this._buttonElement.classList.remove(this.settings.inactiveButtonClass); 
  }
-
-
-
-
+}
