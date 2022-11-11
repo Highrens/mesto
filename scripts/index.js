@@ -115,8 +115,8 @@ function submitAddElementPopup(evt){
     evt.preventDefault(); 
       addElement({name: newElementName.value, link: newElementSrc.value});
       closePopup(popupAddElement);
-      popupAddElementFormValidate.clearPopupFormErrors();
       popupAddElementForm.reset();  
+      popupAddElementFormValidate.clearPopupFormErrors();
 }
 
 //Функция добавляет новую карточку в DOM

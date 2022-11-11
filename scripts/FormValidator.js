@@ -67,6 +67,6 @@ export class FormValidator {
      this.formElement.querySelectorAll(`${this.settings.inputSelector}-error`).forEach((errorElement) => {
      errorElement.textContent = '';
    });
-   this._buttonElement.classList.remove(this.settings.inactiveButtonClass); 
+    this._toggleButtonState();
  }
 }
