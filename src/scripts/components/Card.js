@@ -1,14 +1,14 @@
 export class Card {
-    constructor(element, templateSelector, openImagePopup){
+    constructor({element, elementTemplateSelector, handleCardClick}){
       this.name = element.name;
       this.link = element.link;
-      this.templateSelector = templateSelector;
-      this.openImagePopup = openImagePopup;
+      this.elementTemplateSelector = elementTemplateSelector;
+      this.handleCardClick = handleCardClick;
     }
     
     _getTemplate () {
       const cardElement = document
-      .querySelector(this.templateSelector)
+      .querySelector(this.elementTemplateSelector)
       .content
       .querySelector('.element')
       .cloneNode(true);
@@ -31,7 +31,7 @@ export class Card {
 
     _setEventListeners () {
       this.image.addEventListener('click', () => {
-        this.openImagePopup();
+        this.handleCardClick({name: this.name, link: this.link});
       })
 
       this.like.addEventListener('click', () => {
