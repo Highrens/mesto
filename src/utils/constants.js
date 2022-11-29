@@ -38,6 +38,8 @@ export const elementTemplateSelector = ".card-template";
 
 export const popupProfileButton = document.querySelector(".profile__edit-button");    //Кнопка Открытия
 export const popupProfileForm = document.querySelector("[name=profile-edit-form]");   //Форма
-
+export const popupNameInput = document.querySelector('.popup__text_type_name');
+export const popupAboutInput = document.querySelector('.popup__text_type_about');
 export const popupAddElementButton = document.querySelector(".profile__add-button");        // Кнопка открытия
 export const popupAddElementForm = document.querySelector("[name=add-element-form]");       //форма
+

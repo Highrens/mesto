@@ -4,6 +4,8 @@ export class FormValidator {
     this.formElement = formElement;
     this._inputList = Array.from(this.formElement.querySelectorAll(this.settings.inputSelector));
     this._buttonElement = this.formElement.querySelector(this.settings.submitButtonSelector);
+    this.inputError = this.formElement.querySelectorAll(`.${this.settings.inputErrorClass}`)
+    this.inputErrorMessage =  this.formElement.querySelectorAll(`${this.settings.inputSelector}-error`)
   }
 
 
@@ -61,12 +63,10 @@ export class FormValidator {
 
   //Сбрасываем возможные ошибки валидации
    clearPopupFormErrors () {
-    this.formElement.querySelectorAll(`.${this.settings.inputErrorClass}`).forEach((inputError) => {
-     inputError.classList.remove(this.settings.inputErrorClass);
-   });
-     this.formElement.querySelectorAll(`${this.settings.inputSelector}-error`).forEach((errorElement) => {
-     errorElement.textContent = '';
-   });
     this._toggleButtonState();
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
  }
 }
