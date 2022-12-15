@@ -12,7 +12,8 @@
     <main class="main">
       <section class="profile" aria-label="профиль">
         <div class="profile__column">
-          <img src="<%=require('./images/profile__image.jpg')%>" alt="Изоображение профиля" class="profile__image">
+          <button class="profile__edit-image"></button>
+          <img src="<%=require('./images/profile__image.jpg')%>" alt="Изоображение профиля" class="profile__image">       
           <div class="profile__info">
             <div class="profile__item">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -71,6 +72,24 @@
       </div>     
     </div>
 
+    <div class="popup popup-are-you-sure">
+      <div class="popup__container">
+        <button aria-label="Закрыть попап" class="popup__close popup-are-you-sure-close" type="button"></button>
+        <h2 class="popup__heading popup__heading_slim">Вы уверены?</h2>
+        <button aria-label="подтвердить" type="button" class="popup__submit-button">Да</button>
+      </div>
+    </div>
+    <div class="popup popup-new-profile-image">
+      <div class="popup__container">
+        <button aria-label="Закрыть попап" class="popup__close popup-add-element-close" type="button"></button>
+        <h2 class="popup__heading">Обновить аватар</h2>
+        <form class="popup__form" name="popup-new-profile-form" novalidate>
+          <input type="url" id="new-element-src" placeholder="Ссылка на картинку" name="link" class="popup__text popup__text_type_element-src" required>
+            <span class="popup__text-error new-element-src-error" ></span>
+          <button aria-label="подтвердить" type="submit" class="popup__submit-button">Сохранить</button>
+        </form>
+      </div>
+    </div>
 <!-- template карточки -->
     <template class="card-template" id="element">
       <li class="element">
@@ -78,7 +97,10 @@
         <button aria-label="увеличить изоображение" class="element__image"  type="button"></button>
         <div class="element__description">
           <h2 class="element__name"></h2>
-          <button aria-label="Поставить лайк" class="element__like" type="button"></button>
+          <div class="like-container">
+             <button aria-label="Поставить лайк" class="element__like" type="button"></button>
+             <p class="likes-count">2</p>
+          </div>
         </div>
       </li>
     </template>
