@@ -52,12 +52,12 @@ const editProfilePopup = new PopupWithForm ({popupSelector:  '.popup-profile-edi
         popupNameInput.setAttribute('value', formValues.name);
         popupAboutInput.setAttribute('value', formValues.about);
         userProfile.setUserInfo(data.name, data.about);
+        editProfilePopup.close();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       })
       .finally((res) => {
-      editProfilePopup.close();
       editProfilePopup.submitButton.textContent = 'Сохранить'
     });   
 }} );
@@ -79,17 +79,16 @@ handleFormSubmit: (link) => {
   api.updateUserAvatar(link)
   .then((data) =>  {
     console.log(data);
+    editAvatarPopup.close();
     userProfile.setUserAvatar(data.avatar);
     })
   .catch((err) => {
     console.log(err); // выведем ошибку в консоль
   })
   .finally((res) => {
-    editAvatarPopup.close();
     editAvatarPopup.submitButton.textContent = 'Сохранить'
 });
 
-  editAvatarPopup.close();
 }} );
 
 editAvatarPopup.setEventListeners();
@@ -104,13 +103,14 @@ const popupConfirm = new PopupConfirm({popupSelector:  '.popup-are-you-sure',
     popupConfirm.submitButton.textContent = 'Удаление..'
     api.deleteCard(cardId)
       .then((data) => {
-        card._delete();
+        popupConfirm.close();
+        card.delete();
       })
       .catch((err) => {
         console.log(err); // выведем ошибку в консоль
       })
       .finally(res => {
-        popupConfirm.close();
+
         popupConfirm.submitButton.textContent = 'Да'
       })
 }});
@@ -133,13 +133,19 @@ function createCard(item, userId) {
         api.takeLike(card.cardId)
         .then((newData) => {
           card.likes = newData.likes;
-          card._like(userId);
+          card.like(userId);
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
         });
       } else {
         api.setLike(card.cardId)
         .then((newData) => {
           card.likes = newData.likes;
-          card._like(userId);
+          card.like(userId);
+        })
+        .catch((err) => {
+          console.log(err); // выведем ошибку в консоль
         });
       }
       
@@ -156,32 +162,30 @@ const api = new Api({
     authorization: '02f5ff8b-a10a-4ea8-87ee-4eeed01dea15'
   }
 });
-       
 
-  // Секция карточек
-api.getInitialCards()
+//Получаем с сервера карточки и информацию о пользователе и отображаем
+Promise.all([api.getInitialCards() , api.getUserInfo()])
   .then((data) => {
-    console.log(data);
-    cardsList = new Section({
-      data: data,
-      renderer: (element) => {
-        cardsList.addItem(createCard(element, userId));
-      }
-    },
-    cardListSection
-    );
-    cardsList.renderItems(); 
+  //Карточки с сервера и их секция
+  cardsList = new Section({
+    data: data[0],
+    renderer: (element) => {
+      cardsList.addItem(createCard(element, data[1]._id));
+    }
+  },
+  cardListSection
+  );
+  cardsList.renderItems(); 
+  //Ставим установки пользователя
+  userId = data[1]._id;
+  userProfile.setUserInfo(data[1].name, data[1].about);
+  userProfile.setUserAvatar(data[1].avatar);
+
 })
+.catch((err) => {
+console.log(err); // выведем ошибку в консоль
+});
 
-api.getUserInfo()
-  .then((data) => {
-    userId = data._id;
-    userProfile.setUserInfo(data.name, data.about);
-    userProfile.setUserAvatar(data.avatar);
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
 
 //Попап добавления карточки
 const addElementPopup = new PopupWithForm( {popupSelector:  '.popup-add-element', 
@@ -189,14 +193,13 @@ const addElementPopup = new PopupWithForm( {popupSelector:  '.popup-add-element'
       addElementPopup.submitButton.textContent = 'Сохранение...'
       api.postNewCard(formValues)
         .then((data) => {
-          console.log(data);
-          cardsList.addItem(createCard(data, userId));
+          cardsList.container.prepend(createCard(data, userId));
           popupAddElementFormValidate.clearPopupFormErrors();
+          addElementPopup.close();
         })
         .catch((err) => {
           console.log(err); // выведем ошибку в консоль
         }).finally((res) => {
-          addElementPopup.close();
           addElementPopup.submitButton.textContent = 'Сохранить'
         });  
 }} );

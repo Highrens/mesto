@@ -4,21 +4,21 @@ export default class PopupConfirm extends Popup{
     constructor({popupSelector, handleFormSubmit}){
         super(...arguments)   
         this.handleFormSubmit  = handleFormSubmit;
-        this.cardToDeleteId;
-        this.cardToDelete;
+        this.itemToConfirmId;
+        this.itemToConfirm;
         this.submitButton = this.popup.querySelector('.popup__submit-button');
     }
 
-    open(cardId, card){
+    open(itemId, item){
         super.open();
-        this.cardToDeleteId = cardId;
-        this.cardToDelete = card;
+        this.itemToConfirmId = itemId;
+        this.itemToConfirm = item;
     }
 
     setEventListeners(){
         super.setEventListeners();
         this.submitButton.addEventListener('click', () => {
-            this.handleFormSubmit(this.cardToDeleteId,  this.cardToDelete);
+            this.handleFormSubmit(this.itemToConfirmId,  this.itemToConfirm);
         })
     }
 }

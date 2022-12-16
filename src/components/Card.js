@@ -31,19 +31,19 @@ export class Card {
       this.image = this._element.querySelector(".element__image")
       this.deleteButton = this._element.querySelector('.element__delete');
 
-      if (this.getUserId() != this.ownerId) {
+      if (this.getUserId() !== this.ownerId) {
         this.deleteButton.classList.add('element__delete_hide');
         this.deleteButton.setAttribute("disabled", "");
       } 
       
       this._element.querySelector(".element__name").textContent = this.name;
       
-      this.like = this._element.querySelector('.element__like');
+      this.likeElement = this._element.querySelector('.element__like');
       this.likesCount = this._element.querySelector('.likes-count');
 
       this.image.style = `background-image:url('${this.link}');`;
       this.likesCount.textContent = this.likes.length;
-      this._like(this.getUserId());
+      this.like(this.getUserId());
       this._setEventListeners();
       return this._element;
     }
@@ -53,7 +53,7 @@ export class Card {
         this.handleCardClick({name: this.name, link: this.link});
       })
 
-      this.like.addEventListener('click', () => {
+      this.likeElement.addEventListener('click', () => {
         this.likeFunc();
       })
       
@@ -62,14 +62,14 @@ export class Card {
       })
     }
     
-    _like (userId){
+    like (userId){
       this.likesCount.textContent =  this.likes.length;
-      this.likes.some(likeOwenId => likeOwenId._id == userId) 
-        ? this.like.classList.add('element__like_active') 
-        : this.like.classList.remove('element__like_active');
+      this.likes.some(likeOwenId => likeOwenId._id === userId) 
+        ? this.likeElement.classList.add('element__like_active') 
+        : this.likeElement.classList.remove('element__like_active');
     }
 
-    _delete (){
+    delete (){
       this._element.remove();
     }
 }
